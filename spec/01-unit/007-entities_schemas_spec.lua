@@ -102,9 +102,9 @@ describe("Entities Schemas", function()
     describe("hosts", function()
       it("accepts an array", function()
         local t = {
-          name = "httpbin",
-          upstream_url = "http://httpbin.org",
-          hosts = { "httpbin.org" },
+          name = "example",
+          upstream_url = "http://example.org",
+          hosts = { "example.org" },
         }
 
         local ok, errors = validate_entity(t, api_schema)
@@ -248,8 +248,8 @@ describe("Entities Schemas", function()
     describe("uris", function()
       it("accepts correct uris", function()
         local t = {
-          name = "httpbin",
-          upstream_url = "http://httpbin.org",
+          name = "example",
+          upstream_url = "http://example.org",
           uris = { "/path" },
         }
 
@@ -260,8 +260,8 @@ describe("Entities Schemas", function()
 
       it("accepts unreserved characters from RFC 3986", function()
         local t = {
-          name = "httpbin",
-          upstream_url = "http://httpbin.org",
+          name = "example",
+          upstream_url = "http://example.org",
           uris = { "/abcd~user~2" },
         }
 
@@ -272,8 +272,8 @@ describe("Entities Schemas", function()
 
       it("accepts reserved characters from RFC 3986 (considered as a regex)", function()
         local t = {
-          name = "httpbin",
-          upstream_url = "http://httpbin.org",
+          name = "example",
+          upstream_url = "http://example.org",
           uris = { "/users/[a-z]+/" },
         }
 
@@ -449,8 +449,8 @@ describe("Entities Schemas", function()
     describe("methods", function()
       it("accepts correct methods", function()
         local t = {
-          name = "httpbin",
-          upstream_url = "http://httpbin.org",
+          name = "example",
+          upstream_url = "http://example.org",
           methods = { "GET", "POST" },
         }
 
@@ -541,8 +541,8 @@ describe("Entities Schemas", function()
 
     it("should complain if no [hosts] or [uris] or [methods]", function()
       local ok, errors, self_err = validate_entity({
-        name = "httpbin",
-        upstream_url = "http://httpbin.org",
+        name = "example",
+        upstream_url = "http://example.org",
       }, api_schema)
 
       assert.is_false(ok)
@@ -566,7 +566,7 @@ describe("Entities Schemas", function()
           for j = 1, #valids do
             assert(validate_entity({
               name         = "api",
-              upstream_url = "http://httpbin.org",
+              upstream_url = "http://example.org",
               methods      = "GET",
               [field]      = valids[j],
             }, api_schema))
@@ -579,7 +579,7 @@ describe("Entities Schemas", function()
           for j = 1, #invalids do
             local ok, errors = validate_entity({
               name         = "api",
-              upstream_url = "http://httpbin.org",
+              upstream_url = "http://example.org",
               methods      = "GET",
               [field]      = invalids[j],
             }, api_schema)

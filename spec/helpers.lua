@@ -8,6 +8,8 @@
 local BIN_PATH = "bin/kong"
 local TEST_CONF_PATH = "spec/kong_tests.conf"
 local CUSTOM_PLUGIN_PATH = "./spec/fixtures/custom_plugins/?.lua"
+local MOCK_UPSTREAM_HOST = "http://127.0.0.1"
+local MOCK_UPSTREAM_PORT = 55555
 
 local conf_loader = require "kong.conf_loader"
 local DAOFactory = require "kong.dao.factory"
@@ -904,6 +906,9 @@ return {
   bin_path = BIN_PATH,
   test_conf = conf,
   test_conf_path = TEST_CONF_PATH,
+  mock_upstream_host = MOCK_UPSTREAM_HOST,
+  mock_upstream_port = MOCK_UPSTREAM_PORT,
+  mock_upstream_url  = MOCK_UPSTREAM_HOST .. ':' .. MOCK_UPSTREAM_PORT,
 
   -- Kong testing helpers
   execute = exec,
@@ -920,7 +925,7 @@ return {
   clean_prefix = clean_prefix,
   wait_for_invalidation = wait_for_invalidation,
   run_migrations = run_migrations,
-  
+
   -- miscellaneous
   intercept = intercept,
   openresty_ver_num = openresty_ver_num(),

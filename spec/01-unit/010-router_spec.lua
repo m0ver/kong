@@ -556,16 +556,16 @@ describe("Router", function()
           },
           {
             name = "api-2",
-            uris = { "/httpbin" },
+            uris = { "/example" },
           }
         }
 
         local router = assert(Router.new(use_case))
-        local match_t = router.select("GET", "/httpbin")
+        local match_t = router.select("GET", "/example")
         assert.truthy(match_t)
         assert.same(use_case[2], match_t.api)
 
-        match_t = router.select("GET", "/httpbin/status/200")
+        match_t = router.select("GET", "/example/status/200")
         assert.truthy(match_t)
         assert.same(use_case[2], match_t.api)
       end)
@@ -902,12 +902,12 @@ describe("Router", function()
         {
           name = "api-1",
           uris = { "/my-api" },
-          upstream_url = "http://httpbin.org",
+          upstream_url = "http://example.org",
         },
         {
           name = "api-2",
           uris = { "/my-api-2" },
-          upstream_url = "https://httpbin.org",
+          upstream_url = "https://example.org",
         }
       }
 
@@ -919,7 +919,7 @@ describe("Router", function()
 
       -- upstream_url_t
       assert.equal("http", match_t.upstream_url_t.scheme)
-      assert.equal("httpbin.org", match_t.upstream_url_t.host)
+      assert.equal("example.org", match_t.upstream_url_t.host)
       assert.equal(80, match_t.upstream_url_t.port)
 
       -- upstream_uri
@@ -932,7 +932,7 @@ describe("Router", function()
 
       -- upstream_url_t
       assert.equal("https", match_t.upstream_url_t.scheme)
-      assert.equal("httpbin.org", match_t.upstream_url_t.host)
+      assert.equal("example.org", match_t.upstream_url_t.host)
       assert.equal(443, match_t.upstream_url_t.port)
 
       -- upstream_uri
@@ -1091,7 +1091,7 @@ describe("Router", function()
         {
           name = "api-1",
           uris = { "/my-api" },
-          upstream_url = "http://httpbin.org/get",
+          upstream_url = "http://example.org/get",
         }
       }
 
@@ -1108,12 +1108,12 @@ describe("Router", function()
         {
           name = "api-1",
           uris = { "/my-api" },
-          upstream_url = "http://httpbin.org:8080",
+          upstream_url = "http://example.org:8080",
         },
         {
           name = "api-2",
           uris = { "/my-api-2" },
-          upstream_url = "https://httpbin.org:8443",
+          upstream_url = "https://example.org:8443",
         }
       }
 
@@ -1337,7 +1337,7 @@ describe("Router", function()
         -- use the request's Host header
         {
           name = "api-1",
-          upstream_url = "http://httpbin.org",
+          upstream_url = "http://example.org",
           preserve_host = true,
           headers = {
             ["host"] = { "preserve.com" },
@@ -1346,7 +1346,7 @@ describe("Router", function()
         -- use the API's upstream_url's Host
         {
           name = "api-2",
-          upstream_url = "http://httpbin.org",
+          upstream_url = "http://example.org",
           preserve_host = false,
           headers = {
             ["host"] = { "discard.com" },
@@ -1382,14 +1382,14 @@ describe("Router", function()
 
           local match_t = router.exec(_ngx)
           assert.same(use_case_apis[1], match_t.api)
-          assert.equal("httpbin.org", match_t.upstream_url_t.host)
+          assert.equal("example.org", match_t.upstream_url_t.host)
         end)
 
         it("uses the request's Host header when `grab_header` is disabled", function()
           local use_case_apis = {
             {
               name          = "api-1",
-              upstream_url  = "http://httpbin.org",
+              upstream_url  = "http://example.org",
               preserve_host = true,
               uris          = { "/foo" },
             }
@@ -1413,7 +1413,7 @@ describe("Router", function()
 
           local match_t = router.exec(_ngx)
           assert.same(use_case_apis[2], match_t.api)
-          assert.equal("httpbin.org", match_t.upstream_url_t.host)
+          assert.equal("example.org", match_t.upstream_url_t.host)
         end)
 
         it("does not set the host_header", function()
@@ -1474,7 +1474,7 @@ describe("Router", function()
             {
               name         = "api-1",
               strip_uri    = args[5],
-              upstream_url = "http://httpbin.org" .. args[1],
+              upstream_url = "http://example.org" .. args[1],
               uris         = {
                 args[2],
               },
